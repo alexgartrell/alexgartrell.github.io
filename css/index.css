@@ -27,49 +27,49 @@ body {
     color: white;
 }
 
-h1 { 
-    margin: 7px; 
-    font-family: Courier; 
+h1 {
+    margin: 7px;
+    font-family: Courier;
 }
-h2 { 
-    margin: 4px; 
-    font-family: Courier; 
+h2 {
+    margin: 4px;
+    font-family: Courier;
 }
-h3 { 
-    margin: 4px; 
-    font-family: Courier; 
+h3 {
+    margin: 4px;
+    font-family: Courier;
 }
-h4 { 
-    margin: 4px; 
-    font-family: Courier; 
+h4 {
+    margin: 4px;
+    font-family: Courier;
 }
-h5 { 
-    margin: 4px; 
-    font-family: Courier; 
+h5 {
+    margin: 4px;
+    font-family: Courier;
 }
-h6 { 
-    margin: 4px; 
-    font-family: Courier; 
-}
-
-p { 
-    margin: 2px 8px 8px 8px; 
+h6 {
+    margin: 4px;
+    font-family: Courier;
 }
 
-a { 
-    color: #3B5998; 
+p {
+    margin: 2px 8px 8px 8px;
+}
+
+a {
+    color: #3B5998;
 }
 a:link {
-    text-decoration: none; 
+    text-decoration: none;
 }
 a:visited {
-    text-decoration: none; 
+    text-decoration: none;
 }
 a:active {
-    text-decoration: none; 
+    text-decoration: none;
 }
 a:hover {
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 .centered {
