@@ -1,35 +1,91 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Alex Gartrell's Personal Site</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alex Gartrell</title>
+    <meta
+      name="description"
+      content="Alex Gartrell — Head of Engineering at Thinking Machines Lab. Previously infrastructure engineering leadership at Meta."
+    />
+    <meta name="theme-color" content="#0b0d10" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
   </head>
   <body>
-    <div id="main">
-      <div class="centered">
-	      <h1>Alex Gartrell</h1>
-      </div>
-      <div class="centered" id="links">
-        <a href="http://www.facebook.com/alexgartrell">Facebook</a>
-        &middot;
-        <a href="http://www.twitter.com/alexgartrell">Twitter</a>
-        &middot;
-        <a href="http://www.github.com/alexgartrell">GitHub</a>
-        &middot;
-        <a href="http://www.linkedin.com/in/alexgartrell ">LinkedIn</a>
-      </div>
-      <div id="content">
-        <div>
-          <h3>About Me</h3>
-          <p>
-	    My name is Alex Gartrell and I'm an Engineering manager at
-	    Facebook.  I've worked on all kinds of Infrastructure stuff
-	    ranging from Linux to networks to the CDN. You can see a
-	    relatively up-to-date overview
-	    on <a href="https://www.linkedin.com/in/alexgartrell/">my
-	    LinkedIn.</a>
-          </p>
-        </div>
-      </div>
-    </div>
+    <main class="wrap">
+      <header class="hero">
+        <h1>Alex Gartrell</h1>
+        <p class="lede">
+          I lead engineering at
+          <a href="https://thinkingmachines.ai/">Thinking Machines Lab</a>,
+          building the team and the systems behind frontier AI.
+        </p>
+      </header>
+
+      <section class="section" aria-label="About">
+        <h2>About</h2>
+        <p>
+          I&rsquo;m an engineering leader who came up through
+          infrastructure.  Before Thinking Machines Lab, I spent years
+          at Meta building and leading teams focused primarily around
+          computer systems. I also built the v0 of some of the
+          foundational tech at Meta ranging from caching protocols to
+          storage.
+        </p>
+	<p>
+	  My focus has shifted to AI, where my teams are primarily
+	  focused on building the systems behind training and serving
+	  models and the products we build on top.
+	</p>
+      </section>
+
+      <section class="section" aria-label="Selected work and talks">
+        <h2>Selected work &amp; talks</h2>
+        <ul class="work">
+          <li>
+            <a href="https://www.usenix.org/conference/osdi20/presentation/tang"
+              >Twine: A Unified Cluster Management System for Shared
+              Infrastructure</a
+            >
+            <span class="meta">Paper &middot; OSDI &rsquo;20</span>
+            <p>
+              How Meta runs millions of containers on shared, fungible hardware.
+            </p>
+          </li>
+          <li>
+            <a href="https://www.youtube.com/watch?v=CpqMroMBGP4"
+              >Executing Python functions in the Linux kernel by transpiling to
+              BPF</a
+            >
+            <span class="meta">Talk &middot; PyCon 2017</span>
+            <p>
+              A pure-Python front-end that compiles simple functions down to
+              eBPF and runs them in the kernel.
+            </p>
+          </li>
+          <li>
+            <a
+              href="https://blog.linuxplumbersconf.org/2016/ocw/proposals/3645.html"
+              >Beyond Fork and Exec: Running a Million Containers at
+              Facebook</a
+            >
+            <span class="meta">Talk &middot; Linux Plumbers Conference 2016</span>
+            <p>The container platform underpinning Meta&rsquo;s fleet.</p>
+          </li>
+        </ul>
+      </section>
+
+      <footer class="links" aria-label="Links">
+        <a href="https://github.com/alexgartrell">GitHub</a>
+        <a href="https://www.linkedin.com/in/alexgartrell/">LinkedIn</a>
+        <a href="https://twitter.com/alexgartrell">Twitter</a>
+      </footer>
+    </main>
   </body>
 </html>
