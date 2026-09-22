@@ -1,0 +1,40 @@
+html, body { height: 100%; overflow: hidden; }
+body { background: #155347; color: #eff8f3; }
+.game-wrap { height: 100vh; height: 100dvh; display: flex; flex-direction: column; padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); }
+.toolbar { display: flex; align-items: center; gap: 8px; flex: none; padding-bottom: 8px; }
+.toolbar a { color: #d1e7df; font-size: .85rem; margin-right: auto; white-space: nowrap; }
+#stats { color: #d1e7df; font-size: .8rem; margin-left: auto; white-space: nowrap; }
+button { font: inherit; cursor: pointer; touch-action: manipulation; }
+.toolbar button { color: #eff8f3; background: #ffffff12; border: 1px solid #ffffff40; border-radius: 7px; padding: 5px 12px; font-size: .85rem; white-space: nowrap; }
+button:disabled { cursor: default; opacity: .5; }
+button:focus-visible, a:focus-visible { outline: 3px solid #f4d16c; outline-offset: 3px; }
+/* Keep move announcements accessible without taking space away from the table. */
+#status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#status[data-won="true"] { width: auto; height: auto; clip-path: none; white-space: normal; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #082f29; border: 1px solid #f4d16c; border-radius: 12px; padding: 20px; z-index: 200; text-align: center; }
+.board { --card-width: 8vw; --card-height: 11.2vw; --step: 0px; --row-gap: 8px; flex: 1; min-height: 0; display: grid; grid-template-rows: var(--card-height) minmax(0, 1fr); row-gap: var(--row-gap); padding: 6px; }
+.top-row, .tableau { display: grid; grid-template-columns: repeat(7, var(--card-width)); justify-content: space-between; min-height: 0; }
+.card, .slot { width: 100%; aspect-ratio: 5 / 7; border-radius: 7px; border: 1px solid #ffffff50; padding: 0; }
+.slot { background: #082f2933; color: #d1e7df; font-size: var(--slot-size); }
+.foundation, .column-slot { font-size: var(--suit-size); }
+.card { position: relative; background: #fffdf6; border: 1px solid #626b70; box-shadow: 0 2px 5px #0006, 0 -1px 2px #0003; text-align: left; color: #18232c; user-select: none; }
+.card.red { color: #ba293c; }
+.card[data-location] { touch-action: none; cursor: grab; }
+.card.drag-source { opacity: .25; }
+.drag-layer { position: fixed; inset: 0; z-index: 1000; pointer-events: none; }
+.drag-layer .card { position: absolute; margin: 0; cursor: grabbing; }
+.drop-target { outline: 3px solid #f4d16c; outline-offset: 3px; border-radius: 7px; }
+.corner { position: absolute; top: 2px; left: 3px; font-weight: 700; font-size: var(--rank-size); line-height: 1.15; }
+.suit { position: absolute; top: 46%; left: 50%; transform: translate(-50%, -15%); font-size: var(--suit-size); line-height: 1; }
+.back { background: repeating-linear-gradient(135deg, #234e70 0, #234e70 5px, #2c5b7e 5px, #2c5b7e 7px); box-shadow: inset 0 0 0 3px #b9d1db, 0 2px 5px #0006, 0 -1px 2px #0003; }
+.stock { color: white; font-weight: 600; }
+.card.selected { background: #fff0b5; box-shadow: inset 0 0 0 3px #e2a823, 0 2px 5px #0006, 0 -1px 2px #0003; }
+/* Columns fill the remaining screen; long stacks use tighter spacing. */
+.column { position: relative; min-height: 0; }
+.column > .card, .column > .slot { position: absolute; top: calc(var(--index, 0) * var(--step) * var(--spacing, 1)); left: 0; }
+.column > .card:focus-visible { outline-offset: -3px; }
+@media (max-width: 540px) {
+  .toolbar { gap: 5px; }
+  .toolbar button { padding: 5px 8px; }
+  #stats { font-size: .65rem; }
+  .card, .slot { border-radius: 4px; }
+}

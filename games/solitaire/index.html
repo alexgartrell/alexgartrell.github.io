@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solitaire · Games</title>
+    <link rel="stylesheet" href="../../css/index.css">
+    <link rel="stylesheet" href="solitaire.css">
+    <script defer src="engine.js"></script>
+    <script defer src="solitaire.js"></script>
+  </head>
+  <body>
+    <main class="game-wrap">
+      <nav class="toolbar" aria-label="Game controls">
+        <a href="../index.html" aria-label="Back to games">← Games</a>
+        <button id="new-game">New game</button>
+        <button id="undo" disabled>Undo</button>
+        <span id="stats"></span>
+      </nav>
+      <p id="status" role="status" aria-live="polite"></p>
+      <div class="board" aria-label="Solitaire table">
+        <div id="top-row" class="top-row"></div>
+        <div id="tableau" class="tableau"></div>
+      </div>
+      <noscript>Enable JavaScript to play solitaire. No server connection is needed.</noscript>
+    </main>
+  </body>
+</html>
