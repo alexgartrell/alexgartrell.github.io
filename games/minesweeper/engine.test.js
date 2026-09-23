@@ -1,0 +1,5 @@
+const {test}=require('node:test'),a=require('node:assert/strict'),g=require('./engine');
+test('first reveal and neighbors are safe with exact mine count',()=>{for(const n of [9,16]){const s=g.fresh(n);g.reveal(s,40);a.equal(s.cells.filter(c=>c.mine).length,s.mines);a.ok([40,...g.neighbors(s,40)].every(i=>!s.cells[i].mine));a.ok(g.valid(s));}});
+test('flags block reveals; removing flag permits reveal',()=>{const s=g.fresh();g.flag(s,0);a.equal(g.reveal(s,0),false);a.equal(s.ready,false);g.flag(s,0);a.ok(g.reveal(s,0));});
+test('mine loses and revealing all safe squares wins',()=>{const s=g.fresh();g.seed(s,0);const bomb=s.cells.findIndex(c=>c.mine);const winner=structuredClone(s);g.reveal(s,bomb);a.ok(s.over&&!s.won);winner.cells.forEach((c,i)=>{if(!c.mine)g.reveal(winner,i);});a.ok(winner.won);});
+test('chord opens unflagged neighbors only with matching flag count',()=>{const s=g.fresh();g.seed(s,0);const i=s.cells.findIndex(c=>!c.mine&&c.count>0);g.reveal(s,i);const ns=g.neighbors(s,i);ns.filter(j=>s.cells[j].mine).forEach(j=>g.flag(s,j));g.reveal(s,i);a.ok(ns.every(j=>s.cells[j].mine||s.cells[j].open));a.equal(s.over&&!s.won,false);});

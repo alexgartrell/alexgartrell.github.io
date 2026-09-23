@@ -1,0 +1,5 @@
+.grid { gap: 2px; }
+.cell { box-shadow: inset 1px 1px #ffffff20, inset -1px -1px #0005; }
+.cell.open { background: #101e2b; box-shadow: none; border-color: #243747; }
+.cell[data-count="1"] { color: #81bcff; }.cell[data-count="2"] { color: #8bd6b4; }.cell[data-count="3"] { color: #ffa395; }
+.cell.mine { background: #923d4e; color: white; }

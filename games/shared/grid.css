@@ -1,0 +1,22 @@
+:root { color-scheme: dark; --bg: #101923; --panel: #1b2b3b; --edge: #40576b; --ink: #eaf1f8; --muted: #acbdcc; --accent: #8bd6b4; font-family: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--ink); }
+main { height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 8px; padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); }
+.toolbar, .controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: none; }
+.toolbar a { color: var(--muted); text-decoration: none; margin-right: auto; }
+.title { font-size: .95rem; font-weight: 650; }
+button, select { color: var(--ink); background: var(--panel); border: 1px solid var(--edge); border-radius: 6px; font: inherit; font-size: .85rem; padding: 7px 10px; touch-action: manipulation; }
+button { cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+button[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
+button:focus-visible, select:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; z-index: 2; }
+#status { min-height: 1.3em; margin: 0; color: var(--accent); text-align: center; font-size: .9rem; flex: none; }
+#stats { color: var(--muted); font-size: .8rem; margin-left: auto; }
+.playfield { flex: 1; min-height: 0; min-width: 0; container-type: size; display: grid; place-items: center; }
+.grid { width: min(96cqw, 96cqh); height: min(96cqw, 96cqh); display: grid; gap: 3px; }
+.cell { min-width: 0; min-height: 0; border-radius: 4px; padding: 0; display: grid; place-items: center; font-weight: 650; font-size: clamp(12px, 3cqh, 26px); user-select: none; }
+.controls { justify-content: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (max-width: 540px) { .toolbar { gap: 5px; } button, select { padding: 6px 8px; font-size: .8rem; } .title { display: none; } }
+@media (max-height: 450px) { main { gap: 3px; } button, select { padding: 3px 8px; } #status { font-size: .75rem; } }
