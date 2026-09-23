@@ -1,0 +1,6 @@
+const {test}=require('node:test'),a=require('node:assert/strict'),g=require('./engine');
+const c=(rank,suit=0,up=true)=>({rank,suit,up});const t=(pile,index=0)=>({kind:'tableau',pile,index});
+test('all modes deal 104 cards with 50 stock and 10 exposed cards',()=>{for(const mode of [1,2,4]){const s=g.deal(mode);a.ok(g.valid(s));a.equal(s.stock.length,50);a.equal(s.tableau.flat().filter(c=>c.up).length,10);a.equal(new Set([...s.stock,...s.tableau.flat()].map(c=>c.suit)).size,mode);}});
+test('mixed suits can stack but cannot move together',()=>{const s=g.deal(2);s.tableau[0]=[c(7),c(6,1)];s.tableau[1]=[c(8)];a.equal(g.move(s,t(0),t(1)),false);s.tableau[0]=[c(7),c(6)];a.ok(g.move(s,t(0),t(1)));});
+test('completing a same-suit sequence removes it and reveals the card below',()=>{const s=g.deal();s.tableau[0]=[c(4,0,false),...Array.from({length:12},(_,i)=>c(13-i))];s.tableau[1]=[c(1)];a.ok(g.move(s,t(1),t(0)));a.equal(s.foundations[0].length,13);a.equal(s.tableau[0].length,1);a.ok(s.tableau[0][0].up);});
+test('stock deals a full row and requires all columns occupied',()=>{const s=g.deal();a.ok(g.draw(s));a.equal(s.stock.length,40);s.tableau[0]=[];a.equal(g.draw(s),false);a.equal(s.stock.length,40);});
