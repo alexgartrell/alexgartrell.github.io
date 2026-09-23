@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2048 · Games</title><link rel="stylesheet" href="../shared/grid.css"><link rel="stylesheet" href="style.css">
+<script defer src="../shared/ui.js"></script><script defer src="engine.js"></script><script defer src="app.js"></script>
+</head><body><main aria-label="2048">
+<nav class="toolbar" aria-label="Game controls"><a href="../index.html">← Games</a><span class="title">2048</span><button id="new-game">New game</button><button id="undo">Undo</button><span id="stats"></span></nav>
+<p id="status" role="status" aria-live="polite"></p>
+<div class="playfield"><div id="grid" class="grid" aria-label="2048 board"></div></div>
+<div class="controls" aria-label="Move tiles"><button data-dir="left" aria-label="Move left">←</button><button data-dir="up" aria-label="Move up">↑</button><button data-dir="down" aria-label="Move down">↓</button><button data-dir="right" aria-label="Move right">→</button></div><noscript>Enable JavaScript to play.</noscript>
+</main></body></html>

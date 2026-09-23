@@ -1,0 +1,3 @@
+:root { --bg: #211e1b; --panel: #38322a; --edge: #695c4c; --accent: #f1cb83; }
+.grid { grid-template: repeat(4,1fr)/repeat(4,1fr); gap: 8px; background: #514536; border-radius: 12px; padding: 8px; touch-action: none; }
+.tile { background: #6b5c4a; border-radius: 7px; font-size: clamp(18px,7cqh,54px); font-variant-numeric: tabular-nums; }
