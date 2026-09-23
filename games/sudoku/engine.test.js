@@ -1,0 +1,4 @@
+const {test}=require('node:test'),a=require('node:assert/strict'),g=require('./engine');
+test('generated puzzles have exactly one solution at both levels',()=>{for(const n of [32,40]){const s=g.fresh(n);a.ok(g.valid(s));a.equal(g.countSolutions(s.givens),1);a.ok(s.givens.filter(Boolean).length>=n);a.equal(g.countSolutions(s.solution),1);}});
+test('givens cannot be changed and pencil marks toggle',()=>{const s=g.fresh();const fixed=s.givens.findIndex(Boolean),empty=s.givens.indexOf(0);a.equal(g.enter(s,fixed,0),false);g.enter(s,empty,2,true);a.deepEqual(s.notes[empty],[2]);g.enter(s,empty,2,true);a.deepEqual(s.notes[empty],[]);});
+test('duplicates conflict and a completed solution wins',()=>{const s=g.fresh();s.board=Array(81).fill(0);s.board[0]=3;s.board[1]=3;a.ok(g.conflicts(s,0));a.equal(g.countSolutions(s.board),0);s.board=[...s.solution];a.ok(g.won(s));});
