@@ -1,0 +1,8 @@
+:root { --accent: #bdb0ff; }
+.grid { gap: 1px; }
+.cell { border-radius: 0; font-size: clamp(12px,3cqh,28px); color: #b4a6de; }
+.cell.filled { background: #bdb0ff; border-color: #e4deff; }
+.hint { display: flex; align-items: center; justify-content: flex-end; gap: 4px; padding: 3px; font-size: clamp(9px,2cqh,17px); font-weight: 650; }
+.hint.vertical { flex-direction: column; justify-content: flex-end; gap: 0; line-height: 1.15; }
+.hint.done { color: #768391; }
+.cell.group-right { border-right: 2px solid #9c8cad; }.cell.group-bottom { border-bottom: 2px solid #9c8cad; }
