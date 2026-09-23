@@ -15,7 +15,7 @@ button:focus-visible, select:focus-visible, a:focus-visible, [tabindex]:focus-vi
 #stats { color: var(--muted); font-size: .8rem; margin-left: auto; }
 .playfield { flex: 1; min-height: 0; min-width: 0; container-type: size; display: grid; place-items: center; }
 .grid { width: min(96cqw, 96cqh); height: min(96cqw, 96cqh); display: grid; gap: 3px; }
-.cell { min-width: 0; min-height: 0; border-radius: 4px; padding: 0; display: grid; place-items: center; font-weight: 650; font-size: clamp(12px, 3cqh, 26px); user-select: none; }
+.cell { min-width: 0; min-height: 0; border-radius: 4px; padding: 0; display: grid; place-items: center; font-weight: 650; font-size: clamp(12px, 3cqmin, 26px); user-select: none; }
 .controls { justify-content: center; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 @media (max-width: 540px) { .toolbar { gap: 5px; } button, select { padding: 6px 8px; font-size: .8rem; } .title { display: none; } }

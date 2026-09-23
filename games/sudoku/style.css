@@ -1,9 +1,9 @@
 .grid { grid-template: repeat(9,1fr)/repeat(9,1fr); gap: 0; border: 2px solid #9cbdc9; }
-.cell { border-radius: 0; border: 1px solid #40576b; color: #83d8ff; font-size: clamp(14px,4cqh,30px); }
+.cell { border-radius: 0; border: 1px solid #40576b; color: #83d8ff; font-size: clamp(14px,4cqmin,30px); }
 .cell.given { color: #eff4f8; font-weight: 750; }
 .cell.related { background: #24394a; }.cell.selected { background: #456776; color: white; }
 .cell.conflict { color: #ff9a9a; background: #5c2834; }
-.cell.pencil { font-size: clamp(8px,1.5cqh,12px); white-space: normal; padding: 2px; }
+.cell.pencil { font-size: clamp(8px,1.5cqmin,12px); white-space: normal; padding: 2px; }
 .cell.box-right { border-right: 2px solid #9cbdc9; }.cell.box-bottom { border-bottom: 2px solid #9cbdc9; }
 .number { min-width: 30px; }
 @media(max-width:400px){#numbers{gap:3px}.number{padding:6px;min-width:27px}}
