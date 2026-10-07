@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Darts for π · Visualizations</title>
+    <meta name="description" content="Estimate π by throwing random darts at a circle inside a square.">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="estimator.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Darts for <span class="pi">π</span></h1>
+        <p class="lede">Throw darts at random into a square with a circle drawn inside it. The share that misses the circle tells you π.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="Square board with an inscribed circle and the darts thrown so far"></canvas>
+            <button id="board-hint" class="board-hint" type="button">Press play or tap to throw</button>
+          </div>
+          <figcaption class="legend">
+            <span><i class="swatch in"></i>Inside the circle</span>
+            <span><i class="swatch out"></i>Outside the circle</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Estimate and controls">
+          <div class="readout">
+            <span class="label">Estimate</span>
+            <output id="estimate" class="digits" aria-live="off">–.––––––</output>
+            <span class="truth">π = <span class="digits">3.141593</span></span>
+            <span id="accuracy" class="accuracy">No darts yet.</span>
+          </div>
+
+          <dl class="counts">
+            <div><dt>Darts</dt><dd id="total">0</dd></div>
+            <div><dt><i class="swatch in"></i>Inside</dt><dd id="inside">0</dd></div>
+            <div><dt><i class="swatch out"></i>Outside</dt><dd id="outside">0</dd></div>
+          </dl>
+
+          <p class="formula" id="formula" aria-live="off">π ≈ 4 × (1 − outside ÷ darts)</p>
+
+          <div class="controls">
+            <button id="play" class="primary" type="button" aria-pressed="false"><span class="icon" aria-hidden="true">▶</span> <span class="text">Play</span></button>
+            <button id="reset" type="button">Reset</button>
+          </div>
+          <div class="controls bursts" role="group" aria-label="Throw darts">
+            <button type="button" data-burst="1">+1</button>
+            <button type="button" data-burst="100">+100</button>
+            <button type="button" data-burst="10000">+10k</button>
+            <button type="button" data-burst="1000000">+1M</button>
+          </div>
+          <label class="speed">
+            <span>Speed <output id="speed-label">30 / s</output></span>
+            <input id="speed" type="range" min="0" max="10" step="1" value="3">
+          </label>
+          <p class="keys"><kbd>Space</kbd> play/pause · <kbd>R</kbd> reset</p>
+        </section>
+      </div>
+
+      <section class="card chart-card" aria-labelledby="chart-title">
+        <div class="card-head">
+          <h2 id="chart-title">Convergence</h2>
+          <span class="chart-legend"><span><i class="line est"></i>Your estimate</span><span><i class="line truth"></i>π</span><span><i class="band"></i>95% of runs</span></span>
+        </div>
+        <canvas id="chart" role="img" aria-label="Estimate of pi versus number of darts on a logarithmic scale"></canvas>
+        <p class="note">The axis is logarithmic. Every extra correct decimal needs about 100× more darts, because the typical error shrinks as 1.64&thinsp;/&thinsp;√n.</p>
+      </section>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">Why this works</h2>
+        <div class="why-grid">
+          <p>The square has side 2, so its area is <b>4</b>. The circle has radius 1, so its area is <b>π</b>. A dart landing anywhere in the square at random hits the circle with probability <b>π / 4</b> and misses it with probability <b>(4 − π) / 4</b>.</p>
+          <p>Count the misses and solve for π: <b>π ≈ 4 × (1 − outside ÷ darts)</b>. This is the same as four times the share of hits. It is a Monte Carlo method: precise answers built from lots of randomness.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>
