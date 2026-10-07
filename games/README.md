@@ -15,6 +15,7 @@ runs without a build step, external dependencies, network requests, or a backend
 | Nonograms | Six uniquely solvable 5×5 and 10×10 pictures; click to fill; right-click or Mark for empty cells; undo |
 | Snake | Arrow keys, WASD, swipe, or direction buttons; three speeds; pause; best score |
 | Reversi | Computer plays white at two strengths, or play locally with two people; legal-move hints; undo |
+| Wordle | Six guesses; physical or on-screen keyboard; repeated-letter scoring; unlimited rounds |
 
 The interfaces fit the available viewport. Grid games support keyboard focus;
 card games retain click-to-select and keyboard button controls alongside dragging.

@@ -1,0 +1,20 @@
+:root { --bg: #141716; --panel: #252b28; --edge: #505b54; --accent: #add4ad; }
+.toolbar .title { display: inline; }
+.grid { width: min(94cqw, 78.333cqh, 400px); height: min(112.8cqw, 94cqh, 480px); grid-template: repeat(6, 1fr) / repeat(5, 1fr); gap: 6px; }
+.letter { background: transparent; border: 2px solid #414a44; border-radius: 3px; font-size: clamp(14px, 7cqmin, 34px); }
+.letter.typed { border-color: #91a096; }
+#keyboard { flex: none; width: min(100%, 540px); margin: 0 auto; display: flex; flex-direction: column; gap: 5px; }
+.keyboard-row { display: flex; justify-content: center; gap: 5px; }
+.key { flex: 1; max-width: 49px; min-width: 0; height: clamp(32px, 6dvh, 54px); padding: 0 2px; font-weight: 650; font-size: clamp(11px, 3vw, 15px); border: 0; background: #536057; color: white; }
+.key[data-wide] { flex: 1.6; max-width: 78px; font-size: 11px; }
+.correct { background: #367746; border-color: #367746; color: white; }
+.present { background: #8a701f; border-color: #8a701f; color: white; }
+.absent { background: #323936; border-color: #323936; color: #d2dad5; }
+.key:disabled { opacity: 1; }
+@media (max-height: 500px) and (min-width: 500px) {
+  main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); grid-template-rows: auto auto minmax(0, 1fr); }
+  .toolbar, #status { grid-column: 1 / -1; }
+  .playfield { height: 100%; }
+  #keyboard { align-self: center; }
+  .key { height: clamp(32px, 10dvh, 48px); }
+}
