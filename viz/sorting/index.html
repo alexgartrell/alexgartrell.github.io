@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Sorting race · Visualizations</title>
+    <meta name="description" content="Six sorting algorithms race side by side on the same shuffled bars.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="sorts.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Sorting race</h1>
+        <p class="lede">Six algorithms get the same shuffled bars and the same clock. Every comparison or write costs one tick. Who finishes first?</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="race" id="race">
+            <button id="board-hint" class="board-hint" type="button">▶ Start the race</button>
+          </div>
+          <figcaption class="legend">
+            <span><i class="swatch cmp"></i>Comparing</span>
+            <span><i class="swatch wr"></i>Swapping or writing</span>
+            <span><i class="swatch done"></i>Sorted</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Race results and controls">
+          <div class="readout">
+            <span class="label">Ticks</span>
+            <output id="ticks" class="digits">0</output>
+            <span id="status" class="status">Same bars, same clock. Press start.</span>
+          </div>
+
+          <ol id="podium" class="podium" aria-label="Finish order"></ol>
+
+          <div class="controls">
+            <button id="play" class="primary" type="button" aria-pressed="false"><span class="icon" aria-hidden="true">▶</span> <span class="text">Start</span></button>
+            <button id="step" type="button">Step</button>
+            <button id="shuffle" type="button">Reshuffle</button>
+          </div>
+
+          <div class="inputs">
+            <span class="label">Input</span>
+            <div class="segmented" role="group" aria-label="Input type">
+              <button type="button" data-input="random" aria-pressed="true">Random</button>
+              <button type="button" data-input="nearly" aria-pressed="false">Nearly sorted</button>
+              <button type="button" data-input="reversed" aria-pressed="false">Reversed</button>
+              <button type="button" data-input="few" aria-pressed="false">Few unique</button>
+            </div>
+          </div>
+          <label class="speed">
+            <span>Bars <output id="size-label">48</output></span>
+            <input id="size" type="range" min="8" max="160" step="8" value="48">
+          </label>
+          <label class="speed">
+            <span>Speed <output id="speed-label">120 ticks / s</output></span>
+            <input id="speed" type="range" min="0" max="9" step="1" value="4">
+          </label>
+          <label class="toggle"><input id="sound" type="checkbox"> <span>Sound: a short tone for every access</span></label>
+          <p class="keys"><kbd>Space</kbd> start/pause · <kbd>S</kbd> step · <kbd>R</kbd> reshuffle</p>
+        </section>
+      </div>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">How it works</h2>
+        <div class="why-grid">
+          <p><b>Bubble</b>, <b>insertion</b> and <b>selection</b> sort compare items that are close together or scan the whole remainder, so on n items they need about <b>n²/2</b> steps. Insertion and bubble sort are adaptive, though: try <b>Nearly sorted</b> and they finish almost at once, while selection sort still checks every pair.</p>
+          <p><b>Merge</b>, <b>quick</b> and <b>heap</b> sort split the work into about <b>log₂ n</b> levels of n steps each, roughly <b>n log₂ n</b> in total. For 160 bars that is about 1,200 steps instead of 12,700. No comparison sort can do better in general: there are n! orderings and each comparison at best halves the possibilities, so you need at least log₂ n! ≈ n log₂ n of them.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

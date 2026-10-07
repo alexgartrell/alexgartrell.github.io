@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Pathfinding · Visualizations</title>
+    <meta name="description" content="Draw walls and mud on a grid and watch BFS, Dijkstra, A* and greedy search race to the goal.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="search.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Pathfinding</h1>
+        <p class="lede">Draw walls, spill some mud, drag the start and goal, and watch four search algorithms spread out to find a way through.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="Grid with walls, mud, the start and goal, and the cells each search has explored"></canvas>
+          </div>
+          <figcaption class="legend">
+            <span><i class="swatch start"></i>Start</span>
+            <span><i class="swatch goal"></i>Goal</span>
+            <span><i class="swatch wall"></i>Wall</span>
+            <span><i class="swatch mud"></i>Mud (costs 5)</span>
+            <span><i class="swatch frontier"></i>Frontier</span>
+            <span><i class="swatch visited"></i>Explored</span>
+            <span><i class="swatch path"></i>Path</span>
+          </figcaption>
+          <p class="hint">Drag on empty cells to draw, on walls to erase. Drag <b>●</b> and <b>◎</b> to move them.</p>
+        </figure>
+
+        <section class="panel" aria-label="Results and controls">
+          <div class="readout">
+            <span class="label" id="status-label">A*</span>
+            <p id="status" class="status" aria-live="polite">Searching…</p>
+          </div>
+
+          <div class="segmented" role="group" aria-label="Algorithm" id="algos"></div>
+
+          <div class="controls">
+            <button id="run" class="primary" type="button"><span class="icon" aria-hidden="true">▶</span> <span class="text">Run</span></button>
+            <button id="compare" type="button" aria-pressed="false">Compare</button>
+            <button id="clear" type="button">Clear</button>
+          </div>
+
+          <div class="tools">
+            <span class="label">Paint</span>
+            <div class="segmented small" role="group" aria-label="Brush">
+              <button type="button" data-brush="1" aria-pressed="true">Wall</button>
+              <button type="button" data-brush="2" aria-pressed="false">Mud</button>
+            </div>
+          </div>
+          <div class="tools">
+            <span class="label">Grid</span>
+            <div class="controls presets" role="group" aria-label="Presets">
+              <button type="button" data-preset="maze">Maze</button>
+              <button type="button" data-preset="random">Random</button>
+              <button type="button" data-preset="empty">Empty</button>
+            </div>
+          </div>
+
+          <label class="speed">
+            <span>Speed <output id="speed-label">80 cells / s</output></span>
+            <input id="speed" type="range" min="0" max="8" step="1" value="4">
+          </label>
+          <p class="keys"><kbd>Space</kbd> run · <kbd>1</kbd>–<kbd>4</kbd> algorithm · <kbd>C</kbd> compare · <kbd>M</kbd> maze · <kbd>R</kbd> random · <kbd>E</kbd> empty</p>
+        </section>
+      </div>
+
+      <section class="card" aria-labelledby="results-title">
+        <div class="card-head">
+          <h2 id="results-title">Scoreboard</h2>
+          <span class="chart-legend">Lower is better. Runs on this grid are kept until you change it.</span>
+        </div>
+        <div class="table-wrap">
+          <table class="results">
+            <thead><tr><th scope="col">Algorithm</th><th scope="col">Explored</th><th scope="col">Steps</th><th scope="col">Cost</th><th scope="col">Optimal?</th></tr></thead>
+            <tbody id="results"></tbody>
+          </table>
+        </div>
+        <p class="note">Steps counts moves. Cost adds 1 for each open cell entered and 5 for each mud cell, so a short path through mud can cost more than a long one around it.</p>
+      </section>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">How it works</h2>
+        <div class="why-grid">
+          <p>Every algorithm keeps a <b>frontier</b> of cells it has discovered but not yet explored, and repeatedly takes one out and adds its neighbors. They differ only in which cell they take next. <b>BFS</b> takes the oldest, so it spreads in rings and finds the path with the fewest steps, but it ignores mud. <b>Dijkstra</b> takes the cell that is cheapest to reach, so it finds the lowest-cost path even through mud.</p>
+          <p><b>A*</b> takes the cell with the smallest <b>cost so far + Manhattan distance to the goal</b>. The distance never overestimates the remaining cost, so A* is still optimal, yet it leans toward the goal and explores far less. <b>Greedy best-first</b> uses the distance alone. It is often fastest, but it can be lured into dead ends and return a longer path.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

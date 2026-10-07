@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Fourier epicycles · Visualizations</title>
+    <meta name="description" content="Draw a closed shape and watch a chain of spinning circles trace it back, one Fourier term at a time.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="fourier.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Fourier epicycles</h1>
+        <p class="lede">Any closed shape is a sum of circles spinning at whole-number speeds. Draw one and watch the circles chain together to trace it back.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="Chain of rotating circles whose tip traces the chosen shape"></canvas>
+            <p id="board-hint" class="board-hint" aria-hidden="true">✎ Draw your own shape here</p>
+          </div>
+          <figcaption class="legend">
+            <span><i class="line shape"></i>Your shape</span>
+            <span><i class="line approx"></i>Approximation</span>
+            <span><i class="swatch pen"></i>Pen tip</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Approximation and controls">
+          <div class="readout">
+            <span class="label">Circles</span>
+            <output id="terms-big" class="digits big">1</output>
+            <span id="quality" class="quality">–</span>
+          </div>
+
+          <dl class="counts">
+            <div><dt>Energy</dt><dd id="energy">–</dd></div>
+            <div><dt>Error</dt><dd id="error">–</dd></div>
+            <div><dt>Samples</dt><dd id="samples">–</dd></div>
+          </dl>
+
+          <p class="formula" id="formula">z(t) = Σ c<sub>k</sub> e<sup>2πikt</sup></p>
+
+          <label class="speed">
+            <span>Circles <output id="terms-label">1 of 255</output></span>
+            <input id="terms" type="range" min="0" max="1000" step="1" value="1000" aria-label="Number of circles">
+          </label>
+
+          <div class="controls">
+            <button id="play" class="primary" type="button" aria-pressed="true"><span class="icon" aria-hidden="true">❚❚</span> <span class="text">Pause</span></button>
+            <button id="build" type="button">Build up</button>
+            <button id="circles" type="button" aria-pressed="true">Circles on</button>
+          </div>
+
+          <div class="tools">
+            <span class="label">Shapes</span>
+            <div class="controls presets" role="group" aria-label="Preset shapes">
+              <button type="button" data-preset="heart">Heart</button>
+              <button type="button" data-preset="star">Star</button>
+              <button type="button" data-preset="clef">Clef</button>
+              <button type="button" data-preset="pi" class="pi-btn">π</button>
+            </div>
+          </div>
+
+          <label class="speed">
+            <span>Speed <output id="speed-label">8 s / loop</output></span>
+            <input id="speed" type="range" min="0" max="6" step="1" value="3">
+          </label>
+          <p class="keys"><kbd>Space</kbd> play/pause · <kbd>←</kbd><kbd>→</kbd> circles · <kbd>B</kbd> build up · <kbd>H</kbd> hide circles · <kbd>1</kbd>–<kbd>4</kbd> shapes</p>
+        </section>
+      </div>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">How it works</h2>
+        <div class="why-grid">
+          <p>Treat each point of the drawing as a complex number <b>x + iy</b>, and walk around the shape as time <b>t</b> goes from 0 to 1. The path is first <b>resampled</b> to 256 evenly spaced points, so a slow stroke doesn’t count more than a fast one. The <b>discrete Fourier transform</b> then writes those points exactly as a sum of terms <b>c<sub>k</sub> e<sup>2πikt</sup></b>.</p>
+          <p>Each term is a circle: <b>|c<sub>k</sub>|</b> is its radius, the angle of <b>c<sub>k</sub></b> is where it starts, and <b>k</b> is how many turns it makes per loop (negative turns run clockwise). Stack the circles tip to tail, biggest first, and the last tip draws the shape. Keeping only the biggest few gives the best smooth approximation. The energy figure is <b>Σ|c<sub>k</sub>|²</b> for the circles used, as a share of the total.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

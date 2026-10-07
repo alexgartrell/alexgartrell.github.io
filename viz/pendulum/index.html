@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Double pendulum · Visualizations</title>
+    <meta name="description" content="Release a fan of double pendulums a millionth of a radian apart and watch chaos tear them apart.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="pendulum.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Double pendulum</h1>
+        <p class="lede">Release a few dozen double pendulums whose starting angles differ by a hair. For a while they swing as one. Then chaos takes over.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="Double pendulums swinging from a shared pivot, with fading trails behind their outer bobs"></canvas>
+          </div>
+          <figcaption class="legend">
+            <span><i class="grad"></i>Starting angle, first to last: <b id="eps-legend" class="digits">+0 … +1.9×10⁻⁵ rad</b></span>
+            <span>Drag a bob to set the start</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Divergence, energy and controls">
+          <div class="readout">
+            <span class="label" id="together-label">Swinging together for</span>
+            <output id="together" class="digits">0.0 s</output>
+            <span id="together-note" class="sub">Outer bobs within 10 cm of each other.</span>
+          </div>
+
+          <dl class="counts">
+            <div><dt>Time</dt><dd id="time">0.0 s</dd></div>
+            <div><dt>Spread</dt><dd id="spread">–</dd></div>
+            <div><dt>Energy drift</dt><dd id="drift">0</dd></div>
+          </dl>
+
+          <p class="formula" id="formula">E = kinetic + potential</p>
+
+          <div class="controls">
+            <button id="play" class="primary" type="button" aria-pressed="false"><span class="icon" aria-hidden="true">▶</span> <span class="text">Play</span></button>
+            <button id="reset" type="button">Reset</button>
+            <button id="random" type="button">Shuffle</button>
+          </div>
+          <div class="sliders">
+            <label class="speed">
+              <span>Pendulums <output id="count-label">20</output></span>
+              <input id="count" type="range" min="3" max="50" step="1" value="20">
+            </label>
+            <label class="speed">
+              <span>Difference ε <output id="eps-label">10⁻⁶ rad</output></span>
+              <input id="eps" type="range" min="-12" max="-1" step="1" value="-6">
+            </label>
+            <label class="speed">
+              <span>Gravity <output id="g-label">9.81 m/s² · Earth</output></span>
+              <input id="g" type="range" min="0" max="5" step="1" value="3">
+            </label>
+            <label class="speed">
+              <span>Speed <output id="speed-label">1×</output></span>
+              <input id="speed" type="range" min="0" max="5" step="1" value="3">
+            </label>
+          </div>
+          <p class="keys"><kbd>Space</kbd> play/pause · <kbd>R</kbd> reset · <kbd>S</kbd> shuffle · drag a bob</p>
+        </section>
+      </div>
+
+      <section class="card chart-card" aria-labelledby="chart-title">
+        <div class="card-head">
+          <h2 id="chart-title">How far apart they are</h2>
+          <span class="chart-legend"><span><i class="line"></i>Largest gap between outer bobs</span><span><i class="line threshold"></i>10 cm</span></span>
+        </div>
+        <canvas id="chart" role="img" aria-label="Largest distance between the outer bobs over time, on a logarithmic scale"></canvas>
+        <p class="note" id="chart-note">The vertical axis is logarithmic, so exponential growth shows up as a straight line.</p>
+      </section>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">How it works</h2>
+        <div class="why-grid">
+          <p>Each pendulum follows the exact equations of motion from <b>Lagrangian mechanics</b>: two 1&nbsp;kg bobs on weightless 1&nbsp;m rods, no friction. They are stepped forward 1,000 times per simulated second with the <b>fourth-order Runge–Kutta</b> method, whose error shrinks like the step size to the fourth power. Without friction, total energy should never change, so the energy drift is an honest check on the integrator.</p>
+          <p>The motion is <b>chaotic</b>: a tiny difference in the start grows roughly exponentially, multiplying by <b>e</b> every 1&thinsp;/&thinsp;λ seconds, where λ is the <b>Lyapunov exponent</b>. That is why the gap rises as a straight line on the log chart until it reaches the size of the pendulum. Making ε 10× smaller only buys about ln&nbsp;10&thinsp;/&thinsp;λ more seconds of agreement.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

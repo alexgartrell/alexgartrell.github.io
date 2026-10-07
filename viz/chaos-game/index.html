@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>The chaos game · Visualizations</title>
+    <meta name="description" content="Jump halfway to a random corner of a triangle, again and again, and the Sierpinski triangle appears.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="chaos.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>The chaos game</h1>
+        <p class="lede">Pick a corner at random and jump halfway toward it. Repeat a few thousand times, and pure randomness draws a perfect fractal.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="The points visited by the chaos game, colored by the corner each jump headed toward"></canvas>
+            <button id="board-hint" class="board-hint" type="button">▶ Play the chaos game</button>
+          </div>
+          <figcaption id="legend" class="legend"></figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Rule and controls">
+          <div class="presets" role="group" aria-label="Presets">
+            <button type="button" data-preset="triangle" aria-pressed="true">Triangle</button>
+            <button type="button" data-preset="square" aria-pressed="false">Square</button>
+            <button type="button" data-preset="pentagon" aria-pressed="false">Pentagon</button>
+            <button type="button" data-preset="hexagon" aria-pressed="false">Hexagon</button>
+            <button type="button" data-preset="fern" aria-pressed="false">Fern</button>
+          </div>
+
+          <dl class="counts">
+            <div><dt>Points</dt><dd id="total">0</dd></div>
+            <div><dt id="last-label">Last corner</dt><dd id="last">–</dd></div>
+            <div><dt id="ratio-label">Jump r</dt><dd id="ratio">0.500</dd></div>
+          </dl>
+
+          <p class="formula" id="formula" aria-live="off">p ← p + r × (corner − p)</p>
+
+          <div class="tuning" id="tuning">
+            <label class="speed">
+              <span>Jump ratio <output id="r-label">0.500</output></span>
+              <input id="r" type="range" min="0.1" max="0.9" step="0.001" value="0.5">
+            </label>
+            <label class="rule">
+              <span>Rule</span>
+              <select id="rule">
+                <option value="any">Any corner</option>
+                <option value="no-repeat">Never the same corner twice</option>
+                <option value="no-neighbor">Never a neighbor of the last corner</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="play" class="primary" type="button" aria-pressed="false"><span class="icon" aria-hidden="true">▶</span> <span class="text">Play</span></button>
+            <button id="reset" type="button">Reset</button>
+          </div>
+          <div class="controls bursts" role="group" aria-label="Add points">
+            <button type="button" data-burst="1">+1</button>
+            <button type="button" data-burst="100">+100</button>
+            <button type="button" data-burst="10000">+10k</button>
+            <button type="button" data-burst="1000000">+1M</button>
+          </div>
+          <label class="speed">
+            <span>Speed <output id="speed-label">2 / s</output></span>
+            <input id="speed" type="range" min="0" max="11" step="1" value="1">
+          </label>
+          <p class="keys"><kbd>Space</kbd> play/pause · <kbd>R</kbd> reset · <kbd>1</kbd>–<kbd>5</kbd> presets · drag a corner</p>
+        </section>
+      </div>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">Why this works</h2>
+        <div class="why-grid">
+          <p>Jumping halfway toward corner <b>A</b> shrinks the whole triangle by ½ toward A. The three shrunken copies tile the triangle except for the middle, and the Sierpinski triangle is the one shape that is <b>exactly</b> its three half-size copies. Each jump halves your distance to that shape, so after about 20 jumps you are on it to within a pixel, and from then on every point lands on it.</p>
+          <p>Randomness just decides which copy you visit next, and in the long run it visits them all. Other shapes need other ratios: copies of a pentagon just touch at <b>r = 0.618</b>, the golden ratio, and a hexagon at <b>r = 2/3</b>. The Barnsley fern swaps the corners for four tilted, squashed copies, each an <b>affine map</b> picked with its own probability.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

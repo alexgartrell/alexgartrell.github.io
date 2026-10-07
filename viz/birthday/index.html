@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>The birthday paradox · Visualizations</title>
+    <meta name="description" content="Fill a room with people and watch how quickly two of them share a birthday.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="birthday.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>The birthday paradox</h1>
+        <p class="lede">How many people need to be in a room before two probably share a birthday? Far fewer than you’d guess.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="A room of people, each linked to their birthday on a calendar ring; people who share a birthday are highlighted and connected"></canvas>
+            <button id="board-hint" class="board-hint" type="button">Tap to invite someone in</button>
+          </div>
+          <figcaption class="legend">
+            <span><i class="swatch in"></i>Unique birthday</span>
+            <span><i class="swatch out"></i>Shares a birthday</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Probability and controls">
+          <div class="readout">
+            <span class="label">Chance two share a birthday</span>
+            <output id="prob" class="digits big" aria-live="off">0%</output>
+            <span id="status" class="status">An empty room. Invite someone.</span>
+          </div>
+
+          <dl class="counts">
+            <div><dt>People</dt><dd id="people">0</dd></div>
+            <div><dt>Pairs</dt><dd id="pairs">0</dd></div>
+            <div><dt><i class="swatch out"></i>Matches</dt><dd id="matches">0</dd></div>
+          </dl>
+
+          <p class="formula" id="formula" aria-live="off">P(n) = 1 − (365 × 364 × … × (365 − n + 1)) ÷ 365ⁿ</p>
+
+          <div class="controls">
+            <button id="add" class="primary" type="button">Add a person</button>
+            <button id="add10" type="button">+10</button>
+          </div>
+          <div class="controls">
+            <button id="fill" type="button" aria-pressed="false">Fill until a match</button>
+            <button id="reset" type="button">Reset</button>
+          </div>
+          <p class="keys"><kbd>Space</kbd> add one · <kbd>T</kbd> add ten · <kbd>F</kbd> fill · <kbd>R</kbd> reset</p>
+        </section>
+      </div>
+
+      <section class="card chart-card" aria-labelledby="chart-title">
+        <div class="card-head">
+          <h2 id="chart-title">Chance of a shared birthday</h2>
+          <span class="chart-legend"><span><i class="line exact"></i>Exact</span><span><i class="dot you"></i>Your room</span><span><i class="line sim"></i>Simulated rooms</span></span>
+        </div>
+        <canvas id="chart" role="img" aria-label="Probability of a shared birthday against the number of people, with your room marked"></canvas>
+        <div class="sim-row">
+          <button id="simulate" type="button">Run 1,000 rooms</button>
+          <p id="sim-note" class="note">Each simulated room fills one person at a time until two share a birthday. The orange line is the share of rooms that had a match by each size.</p>
+        </div>
+      </section>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">Why this works</h2>
+        <div class="why-grid">
+          <p>It is easier to count the rooms with <b>no</b> match. The second person avoids the first birthday with chance 364/365, the third avoids both with 363/365, and so on, so <b>P(n) = 1 − 365 × 364 × … × (365 − n + 1) ÷ 365ⁿ</b>. At <b>23 people</b> that crosses 50%, and at 57 it passes 99%. With 366 a match is guaranteed.</p>
+          <p>It feels paradoxical because we picture <em>our own</em> birthday being matched. But a match can come from any pair, and n people make <b>n(n − 1) / 2</b> pairs. 23 people make 253 pairs, each with a 1 in 365 chance. This assumes all 365 days are equally likely and ignores February 29; real birthdays bunch up a little, which makes matches slightly more likely.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

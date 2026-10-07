@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Game of Life · Visualizations</title>
+    <meta name="description" content="Conway's Game of Life: draw cells, load famous patterns, and watch them evolve.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="life.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Game of Life</h1>
+        <p class="lede">Two rules about neighbours turn a grid of dots into gliders, guns and oscillators. Draw some cells and see what they become.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="Grid of cells in Conway's Game of Life. Click or drag to draw cells."></canvas>
+          </div>
+          <figcaption class="legend">
+            <span><i class="swatch alive"></i>Alive</span>
+            <span><i class="swatch ember"></i>Recently died</span>
+            <span>Click or drag to draw · drag from a live cell to erase</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Simulation stats and controls">
+          <div class="readout">
+            <span class="label">Generation</span>
+            <output id="generation" class="digits">0</output>
+          </div>
+
+          <dl class="counts">
+            <div><dt><i class="swatch alive"></i>Alive</dt><dd id="population">0</dd></div>
+            <div><dt>Born</dt><dd id="born">0</dd></div>
+            <div><dt><i class="swatch ember"></i>Died</dt><dd id="died">0</dd></div>
+          </dl>
+
+          <div class="spark">
+            <span class="label">Population <span id="peak" class="peak"></span></span>
+            <canvas id="spark" role="img" aria-label="Population over recent generations"></canvas>
+          </div>
+
+          <p class="formula">Born with exactly <b class="r">3</b> live neighbours. Survives with <b class="r">2</b> or <b class="r">3</b>. Otherwise <b class="o">dead</b>.</p>
+
+          <div class="controls">
+            <button id="play" class="primary" type="button" aria-pressed="false"><span class="icon" aria-hidden="true">▶</span> <span class="text">Play</span></button>
+            <button id="step" type="button">Step</button>
+          </div>
+          <div class="controls">
+            <button id="random" type="button">Random</button>
+            <button id="clear" type="button">Clear</button>
+          </div>
+          <label class="speed">
+            <span>Speed <output id="speed-label">15 gen / s</output></span>
+            <input id="speed" type="range" min="0" max="6" step="1" value="4">
+          </label>
+          <label class="toggle"><input id="wrap" type="checkbox" checked> <span>Wrap around the edges</span></label>
+
+          <div class="presets">
+            <span class="label">Patterns</span>
+            <div class="preset-grid" role="group" aria-label="Load a pattern">
+              <button type="button" data-preset="glider">Glider</button>
+              <button type="button" data-preset="lwss">LWSS</button>
+              <button type="button" data-preset="pulsar">Pulsar</button>
+              <button type="button" data-preset="gun">Glider gun</button>
+              <button type="button" data-preset="rpentomino">R-pentomino</button>
+              <button type="button" data-preset="acorn">Acorn</button>
+            </div>
+          </div>
+          <p class="keys"><kbd>Space</kbd> play/pause · <kbd>S</kbd> step · <kbd>R</kbd> random · <kbd>C</kbd> clear</p>
+        </section>
+      </div>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">How it works</h2>
+        <div class="why-grid">
+          <p>Every cell looks at its <b>eight neighbours</b>. All cells update at once: a dead cell with exactly <b>three</b> live neighbours comes alive, a live cell with <b>two or three</b> stays alive, and everything else dies of loneliness or overcrowding. With wrap-around on, the grid is a torus, so a glider leaving the right edge comes back on the left.</p>
+          <p>Some shapes never change (a <b>block</b>), some repeat (a <b>blinker</b> every 2 generations, a <b>pulsar</b> every 3), and some move: a <b>glider</b> reappears one cell diagonally over every 4 generations. The <b>Gosper gun</b> fires a new glider every 30. Life can even simulate a computer, so in general there is no shortcut for predicting what a pattern will do: you have to run it.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

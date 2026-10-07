@@ -1,0 +1,39 @@
+:root {
+  --v0: #2a78d6; --v1: #eb6834; --v2: #1baf7a; --v3: #eda100; --v4: #e87ba4; --v5: #4a3aa7;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --v0: #3987e5; --v1: #d95926; --v2: #199e70; --v3: #c98500; --v4: #d55181; --v5: #9085e9; }
+}
+
+#board { cursor: crosshair; }
+#board.grab { cursor: grab; }
+#board.grabbing { cursor: grabbing; }
+.board-hint {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  font: 500 0.95rem var(--sans); color: var(--text);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  border: 1px solid var(--border); border-radius: 999px; padding: 10px 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  cursor: pointer; transition: opacity 0.3s ease, transform 0.3s ease; white-space: nowrap;
+}
+.board-hint.gone { opacity: 0; transform: translate(-50%, -40%); pointer-events: none; }
+.legend i { width: 9px; height: 9px; }
+.legend b { font: 600 0.8rem var(--mono); color: var(--text); }
+
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.presets button { flex: 1 1 auto; padding: 8px 10px; font-size: 0.88rem; }
+.presets button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.counts dd .swatch { width: 9px; height: 9px; margin-right: 6px; vertical-align: 1px; }
+.formula { min-height: 4.6em; }
+.formula i { font-style: normal; font-weight: 600; }
+
+.tuning { display: flex; flex-direction: column; gap: 14px; }
+.tuning.off { opacity: 0.45; pointer-events: none; }
+.rule { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; color: var(--muted); }
+select {
+  font: 500 0.9rem var(--sans); color: var(--text); background: var(--bg); width: 100%;
+  border: 1px solid var(--border); border-radius: 10px; padding: 9px 10px; cursor: pointer;
+}
+select:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 2px; border-color: var(--accent); }
+.bursts button { font-family: var(--mono); font-size: 0.85rem; }

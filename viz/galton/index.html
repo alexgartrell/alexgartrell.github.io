@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Galton board · Visualizations</title>
+    <meta name="description" content="Balls bounce through rows of pegs and pile up into a bell curve.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="galton.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Galton board</h1>
+        <p class="lede">Each ball bounces left or right at every peg. Thousands of coin flips later, the bins draw a bell curve.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="Triangle of pegs with balls bouncing down into bins, with the expected binomial counts drawn over the bins"></canvas>
+          </div>
+          <figcaption class="legend">
+            <span><i class="swatch in"></i>Balls in each bin</span>
+            <span><i class="tick"></i>Binomial expectation</span>
+            <span><i class="dash"></i>Normal curve</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Statistics and controls">
+          <div class="readout">
+            <span class="label">Balls landed</span>
+            <output id="total" class="digits big" aria-live="off">0</output>
+            <span id="verdict" class="verdict">Watch the pile grow.</span>
+          </div>
+
+          <table class="compare">
+            <thead><tr><th></th><th>Observed</th><th>Theory</th></tr></thead>
+            <tbody>
+              <tr><th>Mean</th><td id="mean" class="digits">–</td><td id="mean-t" class="digits t">–</td></tr>
+              <tr><th>Std dev</th><td id="sd" class="digits">–</td><td id="sd-t" class="digits t">–</td></tr>
+            </tbody>
+          </table>
+
+          <p class="formula" id="formula" aria-live="off"></p>
+
+          <div class="controls">
+            <button id="play" class="primary" type="button" aria-pressed="false"><span class="icon" aria-hidden="true">▶</span> <span class="text">Play</span></button>
+            <button id="reset" type="button">Reset</button>
+          </div>
+          <div class="controls bursts" role="group" aria-label="Drop balls">
+            <button type="button" data-burst="1">+1</button>
+            <button type="button" data-burst="500">+500</button>
+            <button type="button" data-burst="10000" data-instant>+10k</button>
+          </div>
+          <label class="speed">
+            <span>Ball rate <output id="rate-label">20 / s</output></span>
+            <input id="rate" type="range" min="0" max="8" step="1" value="4">
+          </label>
+          <label class="speed">
+            <span>Chance of bouncing right <output id="p-label">p = 0.50</output></span>
+            <input id="p" type="range" min="0.05" max="0.95" step="0.01" value="0.5">
+          </label>
+          <label class="speed">
+            <span>Rows of pegs <output id="rows-label">n = 12</output></span>
+            <input id="rows" type="range" min="2" max="20" step="1" value="12">
+          </label>
+          <div class="controls presets" role="group" aria-label="Presets">
+            <button type="button" data-p="0.5" data-rows="12">Fair</button>
+            <button type="button" data-p="0.75" data-rows="12">Tilted</button>
+            <button type="button" data-p="0.5" data-rows="20">Tall</button>
+            <button type="button" data-p="0.1" data-rows="16">Lopsided</button>
+          </div>
+          <p class="keys"><kbd>Space</kbd> play/pause · <kbd>B</kbd> +500 · <kbd>R</kbd> reset · <kbd>←</kbd><kbd>→</kbd> tilt</p>
+        </section>
+      </div>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">How it works</h2>
+        <div class="why-grid">
+          <p>Every peg is a coin flip: right with probability <b>p</b>, left otherwise. After <b>n</b> rows a ball's bin is just its number of rights, so bin k collects a share <b>C(n, k) · pᵏ · (1 − p)ⁿ⁻ᵏ</b> of the balls. The C(n, k) counts the routes to that bin, which is why the peg triangle is Pascal’s triangle in disguise.</p>
+          <p>A sum of n independent flips has mean <b>np</b> and standard deviation <b>√(np(1 − p))</b>. The central limit theorem says that such a sum looks more and more like a normal curve as n grows, whatever p is. Tilt the board with a small n and the pile is lopsided; add rows and the bell comes back.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Buffon’s needle · Visualizations</title>
+    <meta name="description" content="Estimate π by dropping needles on a floor of parallel lines and counting how many cross one.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="needle.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Buffon’s needle</h1>
+        <p class="lede">Drop needles at random on a floor of parallel lines. The share that land across a line tells you <span class="pi">π</span>.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="A floor of horizontal lines with the needles dropped so far; needles that cross a line are highlighted"></canvas>
+            <button id="board-hint" class="board-hint" type="button">Press play or tap to drop a needle</button>
+          </div>
+          <figcaption class="legend">
+            <span><i class="stick out"></i>Crosses a line</span>
+            <span><i class="stick in"></i>Clear of the lines</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Estimate and controls">
+          <div class="readout">
+            <span class="label">Estimate</span>
+            <output id="estimate" class="digits" aria-live="off">–.––––––</output>
+            <span class="truth">π = <span class="digits">3.141593</span></span>
+            <span id="accuracy" class="accuracy">No needles yet.</span>
+          </div>
+
+          <dl class="counts">
+            <div><dt>Needles</dt><dd id="total">0</dd></div>
+            <div><dt><i class="swatch out"></i>Crossing</dt><dd id="crossing">0</dd></div>
+            <div><dt><i class="swatch in"></i>Clear</dt><dd id="clear">0</dd></div>
+          </dl>
+
+          <p class="formula" id="formula" aria-live="off">π ≈ 2ℓ × needles ÷ (t × crossings)</p>
+          <p class="rate" id="rate"></p>
+
+          <div class="controls">
+            <button id="play" class="primary" type="button" aria-pressed="false"><span class="icon" aria-hidden="true">▶</span> <span class="text">Play</span></button>
+            <button id="reset" type="button">Reset</button>
+          </div>
+          <div class="controls bursts" role="group" aria-label="Drop needles">
+            <button type="button" data-burst="1">+1</button>
+            <button type="button" data-burst="100">+100</button>
+            <button type="button" data-burst="10000">+10k</button>
+            <button type="button" data-burst="1000000">+1M</button>
+          </div>
+          <label class="speed">
+            <span>Speed <output id="speed-label">10 / s</output></span>
+            <input id="speed" type="range" min="0" max="10" step="1" value="2">
+          </label>
+          <div class="length">
+            <svg class="mini" viewBox="0 0 56 48" aria-hidden="true">
+              <line class="floor" x1="4" y1="6" x2="56" y2="6"/>
+              <line class="floor" x1="4" y1="42" x2="56" y2="42"/>
+              <path class="bracket" d="M8 9 V39 M5 9 H11 M5 39 H11"/>
+              <text x="15" y="28">t</text>
+              <line id="mini-needle" class="needle" x1="38" y1="40" x2="38" y2="12"/>
+            </svg>
+            <label class="speed">
+              <span>Needle length <output id="length-label">ℓ = 0.80 t</output></span>
+              <input id="length" type="range" min="0.2" max="1" step="0.05" value="0.8">
+            </label>
+          </div>
+          <p class="keys"><kbd>Space</kbd> play/pause · <kbd>N</kbd> drop one · <kbd>R</kbd> reset</p>
+        </section>
+      </div>
+
+      <section class="card chart-card" aria-labelledby="chart-title">
+        <div class="card-head">
+          <h2 id="chart-title">Convergence</h2>
+          <span class="chart-legend"><span><i class="line est"></i>Your estimate</span><span><i class="line truth"></i>π</span><span><i class="band"></i>95% of runs</span></span>
+        </div>
+        <canvas id="chart" role="img" aria-label="Estimate of pi versus number of needles on a logarithmic scale"></canvas>
+        <p class="note" id="chart-note">The axis is logarithmic. The typical error shrinks as 1 ÷ √n, so each extra correct decimal costs about 100× more needles. Longer needles cross more often and converge a little faster.</p>
+      </section>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">Why this works</h2>
+        <div class="why-grid">
+          <p>Describe a dropped needle by two random numbers: the distance <b>d</b> from its centre to the nearest line, uniform between 0 and t/2, and its angle <b>θ</b> to the lines, uniform between 0 and π/2. It crosses a line exactly when <b>d ≤ (ℓ/2)·sin θ</b>. That region takes up <b>2ℓ / (πt)</b> of all the possible (d, θ) pairs, so that is the chance of a crossing. The π sneaks in through the angle.</p>
+          <p>Count the crossings and solve for π: <b>π ≈ 2ℓ × needles ÷ (t × crossings)</b>. Georges-Louis Leclerc, Comte de Buffon, posed the problem in 1733 and published the answer in 1777. In 1901 Mario Lazzarini reported 3,408 needles giving 355⁄113 = 3.1415929, a result so good that it is widely believed he stopped at a convenient moment.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Monty Hall · Visualizations</title>
+    <meta name="description" content="Play the Monty Hall game by hand, then simulate thousands of games to see why switching wins two times in three.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="monty.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Monty Hall</h1>
+        <p class="lede">A car hides behind one door and goats behind the rest. Pick a door, watch the host open a goat, then decide: stay or switch?</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame doors-frame">
+            <div id="doors" class="doors" role="group" aria-label="Doors"></div>
+          </div>
+          <figcaption class="decision">
+            <p id="status" class="status" aria-live="polite">Pick a door.</p>
+            <div class="controls choice">
+              <button id="stay" type="button" disabled>Stay</button>
+              <button id="switch" type="button" disabled>Switch</button>
+              <button id="again" class="primary" type="button" hidden>Play again</button>
+            </div>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="Your record and the simulation">
+          <div class="readout">
+            <span class="label">Your record</span>
+            <div class="bars">
+              <div class="bar-row"><span class="bar-name"><i class="swatch sw"></i>Switch</span><span class="track"><span id="bar-switch" class="fill sw"></span><span id="mark-switch" class="mark"></span></span><output id="rate-switch" class="digits">–</output></div>
+              <div class="bar-row"><span class="bar-name"><i class="swatch st"></i>Stay</span><span class="track"><span id="bar-stay" class="fill st"></span><span id="mark-stay" class="mark"></span></span><output id="rate-stay" class="digits">–</output></div>
+            </div>
+          </div>
+
+          <dl class="counts">
+            <div><dt>Games</dt><dd id="games">0</dd></div>
+            <div><dt><i class="swatch sw"></i>Switch wins</dt><dd id="switch-wins">0 / 0</dd></div>
+            <div><dt><i class="swatch st"></i>Stay wins</dt><dd id="stay-wins">0 / 0</dd></div>
+          </dl>
+
+          <p class="formula" id="formula">Staying wins <b class="st">1 in 3</b>. Switching wins <b class="sw">2 in 3</b>.</p>
+
+          <label class="speed">
+            <span>Doors <output id="doors-label">3</output></span>
+            <input id="door-count" type="range" min="3" max="100" step="1" value="3">
+          </label>
+
+          <div class="sim">
+            <span class="label">Simulate both strategies</span>
+            <div class="controls">
+              <button id="play" class="primary" type="button" aria-pressed="false"><span class="icon" aria-hidden="true">▶</span> <span class="text">Simulate</span></button>
+              <button id="reset" type="button">Reset</button>
+            </div>
+            <div class="controls bursts" role="group" aria-label="Simulate games">
+              <button type="button" data-burst="100">+100</button>
+              <button type="button" data-burst="10000">+10k</button>
+              <button type="button" data-burst="1000000">+1M</button>
+            </div>
+            <label class="speed">
+              <span>Speed <output id="speed-label">30 / s</output></span>
+              <input id="speed" type="range" min="0" max="9" step="1" value="3">
+            </label>
+          </div>
+          <p class="keys"><kbd>1</kbd>–<kbd>9</kbd> pick · <kbd>S</kbd> stay · <kbd>W</kbd> switch · <kbd>Space</kbd> simulate · <kbd>R</kbd> reset</p>
+        </section>
+      </div>
+
+      <section class="card chart-card" aria-labelledby="chart-title">
+        <div class="card-head">
+          <h2 id="chart-title">Simulated win rates</h2>
+          <span class="chart-legend"><span><i class="line sw"></i>Switch</span><span><i class="line st"></i>Stay</span><span><i class="line expected"></i>Exact odds</span><span><i class="band"></i>95% of runs</span></span>
+        </div>
+        <canvas id="chart" role="img" aria-label="Win rate of switching and staying versus number of simulated games on a logarithmic scale"></canvas>
+        <p class="note" id="sim-note">Each simulated game plays one contestant who always stays and one who always switches. The axis is logarithmic.</p>
+      </section>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">Why switching wins</h2>
+        <div class="why-grid">
+          <p>Your first pick is right with probability <b>1 / 3</b>, and nothing the host does can change that, because he can always find a goat to show you. So staying wins <b>1 / 3</b> of the time.</p>
+          <p>Switching wins exactly when your first pick was wrong, which happens <b>2 / 3</b> of the time. The host knows where the car is and must avoid it, so the door he leaves shut soaks up all of that probability. With <b>n</b> doors, staying wins <b>1 / n</b> and switching wins <b>(n − 1) / n</b>. Try 100 doors.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

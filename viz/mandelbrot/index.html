@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Mandelbrot explorer · Visualizations</title>
+    <meta name="description" content="Zoom into the Mandelbrot set, with smooth colouring and a live Julia set preview.">
+    <link rel="stylesheet" href="../shared/viz.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="mandel.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <a class="back" href="../index.html">← Visualizations</a>
+        <h1>Mandelbrot explorer</h1>
+        <p class="lede">One rule, z → z² + c, repeated forever. Click anywhere to dive in. The detail never runs out.</p>
+      </header>
+
+      <div class="stage">
+        <figure class="board">
+          <div class="board-frame">
+            <canvas id="board" role="img" aria-label="The Mandelbrot set. Click to zoom in, shift-click to zoom out, drag to pan."></canvas>
+            <div class="julia" aria-hidden="true">
+              <canvas id="julia"></canvas>
+              <span class="julia-label">Julia set at c</span>
+            </div>
+            <div id="busy" class="busy" aria-hidden="true"><i></i></div>
+          </div>
+          <figcaption class="legend">
+            <span>Click to zoom in · shift-click to zoom out · drag to pan · scroll or pinch to zoom</span>
+            <span class="digits" id="cursor">c = –</span>
+          </figcaption>
+        </figure>
+
+        <section class="panel" aria-label="View and controls">
+          <div class="readout">
+            <span class="label">Center</span>
+            <output id="center" class="digits center"><span>−0.6000</span><span>+ 0.0000i</span></output>
+          </div>
+
+          <dl class="counts">
+            <div><dt>Zoom</dt><dd id="zoom">1×</dd></div>
+            <div><dt>Iterations</dt><dd id="iters">200</dd></div>
+            <div><dt>Render</dt><dd id="time">–</dd></div>
+          </dl>
+
+          <div class="controls">
+            <button id="zoom-in" class="primary" type="button">Zoom in</button>
+            <button id="zoom-out" type="button">Zoom out</button>
+            <button id="reset" type="button">Reset</button>
+          </div>
+
+          <div class="group">
+            <span class="label">Famous places</span>
+            <div class="preset-grid" role="group" aria-label="Jump to a famous location">
+              <button type="button" data-preset="seahorse">Seahorse Valley</button>
+              <button type="button" data-preset="elephant">Elephant Valley</button>
+              <button type="button" data-preset="minibrot">Mini-brot</button>
+              <button type="button" data-preset="spiral">Spiral</button>
+            </div>
+          </div>
+
+          <div class="group">
+            <span class="label">Palette</span>
+            <div class="palettes" role="group" aria-label="Colour palette" id="palettes"></div>
+          </div>
+          <label class="toggle"><input id="cycle" type="checkbox"> <span>Cycle the colours</span></label>
+
+          <p class="formula">z<sub>0</sub> = 0, z<sub>n+1</sub> = z<sub>n</sub>² + c. Stop when <b>|z| &gt; 256</b>, colour by <b class="r">n − log₂(log|z<sub>n</sub>| ÷ log 256)</b>.</p>
+          <p class="keys"><kbd>+</kbd> <kbd>−</kbd> zoom · arrows pan · <kbd>0</kbd> reset · <kbd>C</kbd> cycle · <kbd>P</kbd> palette</p>
+        </section>
+      </div>
+
+      <section class="card why" aria-labelledby="why-title">
+        <h2 id="why-title">How it works</h2>
+        <div class="why-grid">
+          <p>Each pixel is a complex number <b>c</b>. Start at z = 0 and repeat <b>z → z² + c</b>. If |z| ever exceeds 2 it is certain to fly off to infinity, so c is <b>outside</b> the set; if it stays bounded, c is <b>inside</b> (black). The colours show how many steps the escape took. Counting steps gives hard bands, so the colour uses the fractional count <b>n − log₂(log|zₙ| ÷ log B)</b>, which slides smoothly from one band to the next.</p>
+          <p>Fix c and instead let the starting point z vary, and you get that c's <b>Julia set</b>, shown in the corner for the point under your cursor. The Mandelbrot set is a map of all of them: when c is inside it, the Julia set is one connected piece; outside, it shatters into dust. Zooming deeper needs more steps before points escape, so the iteration budget grows with zoom until 64-bit floating point runs out of digits at about 10<sup>12</sup>×.</p>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>
